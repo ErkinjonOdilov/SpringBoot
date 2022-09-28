@@ -43,4 +43,13 @@ public class EmployeeService {
     public List<Employee> findByQueryParam(String name){
         return employeeRepository.findAllByNameLikeJPQL(name);
     }
+
+    public List<Employee> getAllByDepartmentIdEmployees(Long id){
+        List<Employee> allByDepartment_id = employeeRepository.findAllByDepartment_Id(id);
+        return allByDepartment_id;
+    }
+
+//    public void deletedById(Long id){
+//        employeeRepository.softDeleteById(id);
+//    }
 }

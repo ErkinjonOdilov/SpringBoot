@@ -2,6 +2,7 @@ package com.example.forportfoliyo.web.rest;
 
 import com.example.forportfoliyo.entity.Employee;
 import com.example.forportfoliyo.service.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,11 +40,11 @@ public class EmployeeResource {
         return ResponseEntity.ok(byId);
     }
 
-    @GetMapping("/employees")
-    public ResponseEntity getAll(@RequestParam String email,@RequestParam String name){
-        List<Employee> all = employeeService.findAll(email,name);
-        return ResponseEntity.ok(all);
-    }
+//    @GetMapping("/employees")
+//    public ResponseEntity getAll(@RequestParam String email,@RequestParam String name){
+//        List<Employee> all = employeeService.findAll(email,name);
+//        return ResponseEntity.ok(all);
+//    }
 
     @GetMapping("/employees/search")
     public ResponseEntity getAllQueryParam(@RequestParam String name){
@@ -56,4 +57,16 @@ public class EmployeeResource {
         employeeService.delete(id);
         return ResponseEntity.ok("Qator o'chirildi");
     }
+
+    @GetMapping("/employees")
+    public List<Employee> getAllByDepartmentEmployees(@RequestParam Long id){
+        List<Employee> allByDepartmentIdEmployees = employeeService.getAllByDepartmentIdEmployees(id);
+        return allByDepartmentIdEmployees;
+    }
+
+//    @PatchMapping("/employees/deleted/{id}")
+//    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id){
+//        employeeService.deletedById(id);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }

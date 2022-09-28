@@ -1,8 +1,13 @@
 package com.example.forportfoliyo.entity;
 
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Employee implements Serializable {
@@ -15,13 +20,40 @@ public class Employee implements Serializable {
 
     private String lastName;
 
+    @NotNull
+    @Size(min = 5, max = 150)   //javani ozi tekshradi
+    @Email
+    @Column(name = "email",length = 150,unique = true,nullable = false)
     private String email;
 
     @ManyToOne
     private Department department;
 
+    @OneToOne(optional = false) //javada tekshiradi null likkg
+    @JoinColumn(name = "account_id",unique = true,nullable = false)
+    private Account account;
+
+    @OneToMany
+    private Set<Item> items; //unique
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
+
     public Department getDepartment() {
         return department;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public void setDepartment(Department department) {
