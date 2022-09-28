@@ -36,6 +36,25 @@ public class Employee implements Serializable {
     @OneToMany
     private Set<Item> items; //unique
 
+    @ManyToMany
+    private Set<Project> projects;  ///dublikat nvolmasiligi uchun setdan foydalandik
+
+    public Employee(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Employee() {
+
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
     public Set<Item> getItems() {
         return items;
     }
