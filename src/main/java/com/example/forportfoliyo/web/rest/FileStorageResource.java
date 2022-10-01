@@ -31,7 +31,7 @@ public class FileStorageResource {
         return ResponseEntity.ok(fileStorage);
     }
 
-    @GetMapping("/file-preview/{hashid}")
+    @GetMapping("/file-preview/{hashId}")
     public ResponseEntity preview(@PathVariable String hashId) throws MalformedURLException {
         FileStorage fileStorage=fileStorageService.findByHashId(hashId);
         return ResponseEntity.ok()
@@ -40,5 +40,22 @@ public class FileStorageResource {
                 .contentLength(fileStorage.getFileSize())
                 .body(new FileUrlResource(String.format("%s/%s",this.serverFolderPath,fileStorage.getUploadFolder())));
 
+    }
+
+    @GetMapping("/download/{hashId}")
+    public ResponseEntity download(@PathVariable String hashId) throws MalformedURLException {
+        FileStorage fileStorage=fileStorageService.findByHashId(hashId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; fileName=\""+ UriEncoder.encode(fileStorage.getName()))
+                .contentType(MediaType.parseMediaType(fileStorage.getContentType()))
+                .contentLength(fileStorage.getFileSize())
+                .body(new FileUrlResource(String.format("%s/%s",this.serverFolderPath,fileStorage.getUploadFolder())));
+
+    }
+
+    @DeleteMapping("/delete/{hashId}")
+    public ResponseEntity delete(@PathVariable String hashId){
+    fileStorageService.delete(hashId);
+    return ResponseEntity.ok("File Deleted");
     }
 }

@@ -30,5 +30,10 @@ upload:
   server:
     folder: D:\Server
 
+api:
+  jsonplaceholder: https://jsonplaceholder.typicode.com
+
+
+
 
 

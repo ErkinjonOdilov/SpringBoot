@@ -5,7 +5,6 @@ import com.example.forportfoliyo.entity.enummration.FileStorageStatus;
 import com.example.forportfoliyo.repository.FileStorageRepository;
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,6 +75,13 @@ public class FileStorageService {
         return fileStorageRepository.findByHashId(hashId);
     }
 
+    public void delete(String hashId){
+        FileStorage fileStorage= fileStorageRepository.findByHashId(hashId);
+        File file=new File(String.format("%s/%s",this.serverFolderPath,fileStorage.getUploadFolder()));
+        if(file.delete()){
+            fileStorageRepository.delete(fileStorage);
+        }
+    }
     private String getExt(String fileName){
         String ext=null;
         //hisobot.doc
